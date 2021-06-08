@@ -26,18 +26,8 @@ export function substituteEnvVars(config) {
 }
 
 export default () => {
-  const defaultConfig = yaml.load(
-    readFileSync(
-      join(process.cwd(), 'config', YAML_DEFAULT_CONFIG_FILENAME),
-      'utf8',
-    ),
-  );
-  const overrideConfig = yaml.load(
-    readFileSync(
-      join(process.cwd(), 'config', YAML_CUSTOM_ENV_VARS_FILENAME),
-      'utf8',
-    ),
-  );
+  const defaultConfig = yaml.load(readFileSync(join(process.cwd(), 'config', YAML_DEFAULT_CONFIG_FILENAME), 'utf8'));
+  const overrideConfig = yaml.load(readFileSync(join(process.cwd(), 'config', YAML_CUSTOM_ENV_VARS_FILENAME), 'utf8'));
   return merge(defaultConfig, substituteEnvVars(overrideConfig));
 };
 

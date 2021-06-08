@@ -17,6 +17,33 @@
       }
     },
     "schemas": {
+      "GenerateDocumentDtoWithTemplateId": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "file",
+            "description": "Template"
+          },
+          "data": {
+            "type": "object"
+          },
+          "outputFormat": {
+            "type": "string",
+            "enum": [
+              "pdf",
+              "docx"
+            ]
+          },
+          "debug": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "outputFormat",
+          "debug"
+        ]
+      },
       "GenerateDocumentDto": {
         "type": "object",
         "properties": {
@@ -68,6 +95,36 @@
         }
       }
     },
+    "/templates/{templateId}/generate": {
+      "post": {
+        "operationId": "generateWithTemplateId",
+        "parameters": [
+          {
+            "name": "templateId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateDocumentDtoWithTemplateId"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/generate": {
       "post": {
         "operationId": "generate",
@@ -76,6 +133,11 @@
           "required": true,
           "content": {
             "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateDocumentDto"
+              }
+            },
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GenerateDocumentDto"
               }

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { DocumentFormat } from './app.enum';
 
 export class GenerateDocumentDto {
@@ -9,7 +9,9 @@ export class GenerateDocumentDto {
     description: 'Template',
     type: 'file',
   })
-  file?: Express.Multer.File;
+  file?: Buffer;
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   debug: boolean = false;
 }
+
+export class GenerateDocumentDtoWithTemplateId extends OmitType(GenerateDocumentDto, ['templateUrl']) {}
