@@ -1,0 +1,8 @@
+.dev
+.vscode
+dist
+node_modules
+docs
+coverage
+.env
+.env.example

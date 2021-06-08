@@ -1,0 +1,93 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API",
+    "description": "",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "GenerateDocumentDto": {
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "file",
+            "description": "Template"
+          },
+          "templateUrl": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object"
+          },
+          "outputFormat": {
+            "type": "string",
+            "enum": [
+              "pdf",
+              "docx"
+            ]
+          },
+          "debug": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": [
+          "outputFormat",
+          "debug"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/generate": {
+      "post": {
+        "operationId": "generate",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateDocumentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        }
+      }
+    }
+  }
+}

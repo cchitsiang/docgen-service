@@ -1,0 +1,43 @@
+service:
+  name: docgen
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ${self:custom.region}
+  environment:
+    STAGE: ${self:provider.stage}
+    NODE_ENV: production
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: "1"
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-offline
+
+custom:
+  stage: ${opt:stage, 'dev'}
+  region: ${opt:region, 'ap-southeast-1'}
+  serverless-offline:
+    httpPort: 4000
+
+package:
+  excludeDevDependencies: true
+  exclude:
+    - .git/**
+    - src/**
+    - test/**
+    - e2e/**
+    - README.md
+
+functions:
+  main:
+    handler: dist/lambda.handler
+    events:
+      - http:
+          cors: true
+          method: any
+          path: /{proxy+}
+      - http:
+          cors: true
+          method: GET
+          path: /
